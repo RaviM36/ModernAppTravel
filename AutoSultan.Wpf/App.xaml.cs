@@ -50,7 +50,9 @@ public partial class App : Application
 
                 // ViewModels and Views
                 services.AddSingleton<ViewModels.LoginViewModel>();
+                // Register LoginView so DI can construct it with IServiceProvider
                 services.AddTransient<Views.LoginView>();
+                // Dashboard will be created manually with username, no DI registration required
             })
             .Build();
 

@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -14,6 +15,10 @@ public class LoginViewModel : INotifyPropertyChanged
     private readonly EntraAuthService? _entra;
     private string? _username;
     private string? _password;
+
+    // Default test credentials
+    private const string DefaultUsername = "demo@autosultan.local";
+    private const string DefaultPassword = "Demo@1234";
 
     public LoginViewModel(IAuthService authService, EntraAuthService? entra = null)
     {
@@ -40,13 +45,25 @@ public class LoginViewModel : INotifyPropertyChanged
     public System.Windows.Input.ICommand CloseCommand { get; }
     public System.Windows.Input.ICommand EntraSignInCommand { get; }
 
+    // Raised when login succeeds. Payload: username
+    public event Action<string?>? LoginSucceeded;
+
     private async Task LoginAsync()
     {
+        // Accept default test credentials without backend
+        if (string.Equals(Username, DefaultUsername, StringComparison.OrdinalIgnoreCase)
+            && string.Equals(Password, DefaultPassword, StringComparison.Ordinal))
+        {
+            MessageBox.Show("Login successful (default test user)", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            LoginSucceeded?.Invoke(Username);
+            return;
+        }
+
         var ok = await _authService.AuthenticateAsync(Username ?? string.Empty, Password ?? string.Empty);
         if (ok)
         {
             MessageBox.Show("Login successful", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-            // TODO: navigate to main window
+            LoginSucceeded?.Invoke(Username);
         }
         else
         {
