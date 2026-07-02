@@ -1,0 +1,35 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# build
+bin/
+obj/
+
+# Rider
+.idea/
+
+# EF migrations snapshot DB
+*.db
+
+# VS Code
+.vscode/
+
+# NuGet
+*.nupkg
+
+# Dotnet tools
+.tool/
+
+# user-specific files
+*.local
+
+# logs
+*.log
+
+env.local
+
+# other
+AutoSultan.Wpf/bin/
+AutoSultan.Wpf/obj/
